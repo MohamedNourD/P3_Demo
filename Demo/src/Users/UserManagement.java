@@ -5,18 +5,18 @@ import java.util.*;
 
 public class UserManagement {
     public static void addUser(User user) throws IOException {
-        try (FileWriter writer = new FileWriter("users.csv", true)) {
-            writer.write(user.toString() + "\n");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("users.txt", true))) {
+            writer.write(user.toString());
+            writer.newLine();
         }
-        Notififcation successNotification = new Notififcation();
-        successNotification.getNotification("The account has been created Successfuly!", "You can order whatever u want");
     }
+
     public static List<User> getUsers() throws IOException {
         List<User> users = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("users.csv"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                users.add(User.fromCSV(line));
+                users.add(User.fromString(line));
             }
         }
         return users;

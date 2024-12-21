@@ -1,14 +1,12 @@
 package Users;
 
-import java.util.regex.*;
-
 public class User {
     private String firstName;
     private String lastName;
     private String email;
     private String password;
-    private String userType;
-    public User(String firstName, String lastName, String email, String password, String userType) {
+    private int userType;
+    public User(String firstName, String lastName, String email, String password, int userType) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -30,7 +28,7 @@ public class User {
         return password;
     }
 
-    public boolean createAccount(String firstName, String lastName, String email, String password1, String password2) {
+    public boolean createAccount(String firstName, String lastName, String email, String password1, String password2, int userType) {
         try {
             if (firstName.isEmpty())
                 throw new EmptyString();
@@ -75,7 +73,7 @@ public class User {
             if (password1.isEmpty())
                 throw new EmptyString();
             else {
-                if (password1 == password2)
+                if (password1.equals(password2))
                     this.password = password1;
                 else
                     throw new PasswordMismatching();
@@ -89,15 +87,16 @@ public class User {
             System.out.println("Password mismatching!");
             return false;
         }
+        this.userType = userType;
         return true;
     }
 
     public String toString() {
         return firstName + "," + lastName + "," + email + "," + password + "," + userType;
     }
-    public static User fromCSV(String line) {
+    public static User fromString(String line) {
         String[] parts = line.split(",");
-        return new User(parts[0], parts[1], parts[2], parts[3], parts[4]);
+        return new User(parts[0], parts[1], parts[2], parts[3], Integer.parseInt(parts[4]));
     }
 
 }
